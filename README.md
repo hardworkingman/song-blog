@@ -9,6 +9,5 @@ fork from [blog](https://github.com/zhisheng17/blog)
 主题来自：`startbootstrap-clean-blog`
 ## 感谢
 
-[ZHENFENG13](https://github.com/ZHENFENG13)
-[otale](https://github.com/otale)
+[zhisheng17](https://github.com/zhisheng17/blog)
 [Blackrock Digital](https://github.com/BlackrockDigital)
