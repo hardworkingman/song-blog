@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<div th:replace="themes/default/another/header::header(null,null)"></div>
+  <body>
+    <!-- Page Header -->
+    <header class="masthead" style="background-image: url('/another/img/post-bg.jpg')">
+      <div class="overlay"></div>
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 col-md-10 mx-auto">
+            <div class="post-heading">
+              <h1 th:text="${article.title}"></h1>
+              <!--<h2 class="subheading">Problems look mighty small from 150 miles up</h2>-->
+              <span class="meta" th:text="${'Posted by 宋欣聪 on ' + commons.fmtdate(article.created)}"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Post Content -->
+    <article>
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 col-md-10 mx-auto" th:utext="${commons.article(article.content)}">
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <hr>
+  </body>
+<div th:replace="themes/default/another/footer::footer"></div>
+</html>

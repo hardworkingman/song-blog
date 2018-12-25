@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<div th:replace="themes/default/another/header::header(null,null)"></div>
+  <body>
+    <!-- Page Header -->
+    <header class="masthead" style="background-image: url('/another/img/home-bg.jpg')">
+      <div class="overlay"></div>
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 col-md-10 mx-auto">
+            <div class="site-heading">
+              <h1>宋欣聪的博客</h1>
+              <span class="subheading">砖要一块一块地搬，墙要一层一层的砌。</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <div th:each="article,articleStat: ${articles.list}">
+          <div class="post-preview">
+            <a href="post.html" th:href="${commons.permalinkAnother(article.cid, article.slug)}">
+              <h2 class="post-title" th:text="${article.title}">
+              </h2>
+              <h6 class="post-subtitle" th:text="${commons.intro(article.content, 200) + '...'}">
+              </h6>
+            </a>
+            <p class="post-meta" th:text="${'Posted by 宋欣聪 on ' + commons.fmtdate(article.created)}"></p>
+          </div>
+          <hr>
+          </div>
+          <!-- Pager -->
+          <div class="clearfix">
+            <a class="btn btn-primary float-right" href="#">Older Posts &rarr;</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr>
+  </body>
+<div th:replace="themes/default/another/footer::footer"></div>
+</html>
