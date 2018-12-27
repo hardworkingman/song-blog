@@ -69,7 +69,23 @@ public class IndexController extends BaseController {
     public String another(@RequestParam(value = "limit", defaultValue = "6") int limit, Model model) {
         PageInfo<ContentVo> contents = contentService.getContents(1, limit);
         model.addAttribute("articles", contents);
+        model.addAttribute("page", 1);
+        model.addAttribute("lastPage", contents.getNavigateLastPage());
         return THEME + "/another/index";
+    }
+
+    @GetMapping(value = {"/another/page{page}"})
+    public String another(@PathVariable int page, @RequestParam(value = "limit", defaultValue = "6") int limit, Model model) {
+        PageInfo<ContentVo> contents = contentService.getContents(page, limit);
+        model.addAttribute("articles", contents);
+        model.addAttribute("page", page);
+        model.addAttribute("lastPage", contents.getNavigateLastPage());
+        return THEME + "/another/index";
+    }
+
+    @GetMapping(value = {"/another/contact"})
+    public String contact() {
+        return THEME + "/another/contact";
     }
 
     /**
