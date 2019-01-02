@@ -3,7 +3,7 @@ package com.my.blog.website.service.impl;
 import com.my.blog.website.modal.Vo.RelationshipVoExample;
 import com.my.blog.website.modal.Vo.RelationshipVoKey;
 import com.my.blog.website.service.IRelationshipService;
-import com.my.blog.website.dao.RelationshipVoMapper;
+import com.my.blog.website.mapper.RelationshipVoMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;

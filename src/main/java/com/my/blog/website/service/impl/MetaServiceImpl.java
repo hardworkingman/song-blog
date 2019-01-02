@@ -8,7 +8,7 @@ import com.my.blog.website.modal.Vo.MetaVo;
 import com.my.blog.website.modal.Vo.RelationshipVoKey;
 import com.my.blog.website.service.IMetaService;
 import com.my.blog.website.service.IRelationshipService;
-import com.my.blog.website.dao.MetaVoMapper;
+import com.my.blog.website.mapper.MetaVoMapper;
 import com.my.blog.website.modal.Vo.ContentVo;
 import com.my.blog.website.modal.Vo.MetaVoExample;
 import com.my.blog.website.service.IContentService;

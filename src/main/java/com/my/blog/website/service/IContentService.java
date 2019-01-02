@@ -90,4 +90,5 @@ public interface IContentService {
      * @param newCatefory
      */
     void updateCategory(String ordinal,String newCatefory);
+
 }

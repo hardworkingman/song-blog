@@ -17,7 +17,7 @@ import javax.annotation.Resource;
  * 测试数据库事务
  * Created by BlueT on 2017/3/8.
  */
-@MapperScan("com.my.blog.website.dao")
+@MapperScan("com.my.blog.website.mapper")
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @Transactional(rollbackFor = TipException.class)

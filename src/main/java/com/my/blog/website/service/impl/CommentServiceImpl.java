@@ -5,7 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.my.blog.website.exception.TipException;
 import com.my.blog.website.utils.DateKit;
 import com.my.blog.website.utils.TaleUtils;
-import com.my.blog.website.dao.CommentVoMapper;
+import com.my.blog.website.mapper.CommentVoMapper;
 import com.my.blog.website.modal.Bo.CommentBo;
 import com.my.blog.website.modal.Vo.CommentVo;
 import com.my.blog.website.modal.Vo.CommentVoExample;

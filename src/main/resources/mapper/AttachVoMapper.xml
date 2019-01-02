@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.my.blog.website.dao.AttachVoMapper">
+<mapper namespace="com.my.blog.website.mapper.AttachVoMapper">
   <resultMap id="BaseResultMap" type="com.my.blog.website.modal.Vo.AttachVo">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="fname" jdbcType="VARCHAR" property="fname" />

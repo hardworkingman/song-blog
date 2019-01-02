@@ -47,7 +47,7 @@
 
         <!-- 对包进行更详细的配置 -->
         <!-- additivity表示是否追加,防止重复,因为root已经接收过一次了 -->
-        <logger name="com.my.blog.website.dao" level="DEBUG" additivity="true">
+        <logger name="com.my.blog.website.mapper" level="DEBUG" additivity="true">
             <appender-ref ref="db_log"/>
         </logger>
         <logger name="com.my.blog.website.controller" level="DEBUG" additivity="false">

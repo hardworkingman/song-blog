@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:fragment="footer">
+<body>
+<div class="col-lg-3 col-lg-offset-0 col-md-3 col-md-offset-0 col-sm-12 col-xs-12 sidebar-container">
+    <!-- Featured Tags -->
+    <section>
+        <h5><a th:href="@{hux/archive}">FEATURED TAGS</a></h5>
+        <div class="tags">
+            <a href="#" title="" rel="10" th:each="category,categoryStat : ${categories}"
+               th:text="${category.name}"></a>
+        </div>
+    </section>
+
+    <!-- Short About -->
+    <section class="visible-md visible-lg">
+        <hr>
+        <h5>
+            <a th:href="@{/hux/about}">ABOUT ME</a>
+        </h5>
+        <div class="short-about">
+            <img th:src="@{/hux/img/tx.jpg}">
+            <p>千里之行，始于足下。</p>
+            <!-- SNS Link -->
+            <ul class="list-inline">
+                <li>
+                    <a href="#">
+                              <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                              </span>
+                    </a>
+                </li>
+                <li>
+                    <a target="_blank" href="#">
+                              <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                              </span>
+                    </a>
+                </li>
+                <li>
+                    <a target="_blank" href="#">
+                              <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                              </span>
+                    </a>
+                </li>
+                <li>
+                    <a target="_blank" href="https://github.com/hardworkingman">
+                              <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                              </span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </section>
+    <!-- Friends Blog -->
+    <hr>
+    <h5>FRIENDS</h5>
+    <ul class="list-inline">
+        <li><a href="#">朋友</a></li>
+    </ul>
+</div>
+</body>
+</html>

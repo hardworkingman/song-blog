@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<div th:replace="themes/default/hux/head::head(null,null)"></div>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+<!-- Page Header -->
+<header class="intro-header" style="background-image: url(&#39;/hux/img/home-bg.jpg&#39;)">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="site-heading">
+                    <h1>宋欣聪的博客</h1>
+                    <span class="subheading">砖要一块一块地搬，墙要一层一层地砌。</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Main Content -->
+<div class="container">
+    <div class="row">
+        <!-- USE SIDEBAR -->
+        <!-- PostList Container -->
+        <div class="col-lg-8 col-lg-offset-1 col-md-8 col-md-offset-1 col-sm-12 col-xs-12 postlist-container">
+            <div th:each="article,articleStat : ${articles.list}">
+                <div class="post-preview">
+                    <a href="" th:href="${commons.permalinkHux(article.cid, article.slug)}">
+                        <h2 class="post-title" th:text="${article.title}">
+                        </h2>
+                        <!--<h3 class="post-subtitle">-->
+                        <!--Using Vim with non-english input method-->
+                        <!--</h3>-->
+                        <div class="post-content-preview" th:text="${commons.intro(article.content, 200) + '...'}">
+                        </div>
+                    </a>
+                    <p class="post-meta" th:text="${'Posted by 宋欣聪 on ' + commons.fmtdate(article.created)}">
+                    </p>
+                </div>
+                <hr>
+            </div>
+
+            <!-- Pager -->
+            <ul class="pager">
+                <li class="previous">
+                    <a th:href="@{'/hux/page' + ${page - 1}}" th:if="${page > 1}">← Newer Posts</a>
+                </li>
+                <li class="next">
+                    <a th:href="@{'/hux/page' + ${page + 1}}" th:if="${page < lastPage}">Older Posts →</a>
+                </li>
+            </ul>
+        </div>
+        <!-- Sidebar Container -->
+        <div class="col-lg-3 col-lg-offset-0 col-md-3 col-md-offset-0 col-sm-12 col-xs-12 sidebar-container">
+            <!-- Featured Tags -->
+            <section>
+                <h5><a th:href="@{hux/archive}">FEATURED TAGS</a></h5>
+                <div class="tags">
+                    <a href="#" title="" rel="10" th:each="category,categoryStat : ${categories}"
+                       th:text="${category.name}"></a>
+                </div>
+            </section>
+
+            <!-- Short About -->
+            <section class="visible-md visible-lg">
+                <hr>
+                <h5>
+                    <a th:href="@{/hux/about}">ABOUT ME</a>
+                </h5>
+                <div class="short-about">
+                    <img th:src="@{/hux/img/tx.jpg}">
+                    <p>千里之行，始于足下。</p>
+                    <!-- SNS Link -->
+                    <ul class="list-inline">
+                        <li>
+                            <a href="#">
+                              <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                              </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a target="_blank" href="#">
+                              <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                              </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a target="_blank" href="#">
+                              <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                              </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a target="_blank" href="https://github.com/hardworkingman">
+                              <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                              </span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </section>
+            <!-- Friends Blog -->
+            <hr>
+            <h5>FRIENDS</h5>
+            <ul class="list-inline">
+                <li><a href="#">朋友</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- Footer -->
+<div th:replace="themes/default/hux/footer::footer"></div>
+</body>
+</html>

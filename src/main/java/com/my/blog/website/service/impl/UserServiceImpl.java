@@ -1,6 +1,6 @@
 package com.my.blog.website.service.impl;
 
-import com.my.blog.website.dao.UserVoMapper;
+import com.my.blog.website.mapper.UserVoMapper;
 import com.my.blog.website.exception.TipException;
 import com.my.blog.website.modal.Vo.UserVo;
 import com.my.blog.website.service.IUserService;

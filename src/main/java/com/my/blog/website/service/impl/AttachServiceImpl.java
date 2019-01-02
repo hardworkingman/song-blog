@@ -2,7 +2,7 @@ package com.my.blog.website.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.my.blog.website.dao.AttachVoMapper;
+import com.my.blog.website.mapper.AttachVoMapper;
 import com.my.blog.website.utils.DateKit;
 import com.my.blog.website.modal.Vo.AttachVo;
 import com.my.blog.website.modal.Vo.AttachVoExample;

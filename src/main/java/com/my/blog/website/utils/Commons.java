@@ -134,6 +134,19 @@ public final class Commons {
     }
 
     /**
+     * 字符串分割成字符串数组
+     * @param str 分割的字符串
+     * @param sign 分隔符
+     * @return
+     */
+    public static String[] splitstr(String str, String sign) {
+        if (str.length() > 0) {
+            return str.split(sign);
+        }
+        return new String[0];
+    }
+
+    /**
      * 返回主题URL
      *
      * @return
@@ -202,6 +215,10 @@ public final class Commons {
 
     public static String permalinkAnother(Integer cid, String slug) {
         return site_url("/another/article/" + (StringUtils.isNotBlank(slug) ? slug : cid.toString()));
+    }
+
+    public static String permalinkHux(Integer cid, String slug) {
+        return site_url("/hux/article/" + (StringUtils.isNotBlank(slug) ? slug : cid.toString()));
     }
 
     /**

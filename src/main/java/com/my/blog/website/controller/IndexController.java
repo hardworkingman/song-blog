@@ -61,21 +61,17 @@ public class IndexController extends BaseController {
      * @return
      */
     @GetMapping(value = {"/", "index"})
-    public String index(HttpServletRequest request, @RequestParam(value = "limit", defaultValue = "12") int limit) {
+    public String index(HttpServletRequest request, @RequestParam(value = "limit", defaultValue = "10") int limit) {
         return this.index(request, 1, limit);
     }
 
     @GetMapping(value = {"/another"})
-    public String another(@RequestParam(value = "limit", defaultValue = "6") int limit, Model model) {
-        PageInfo<ContentVo> contents = contentService.getContents(1, limit);
-        model.addAttribute("articles", contents);
-        model.addAttribute("page", 1);
-        model.addAttribute("lastPage", contents.getNavigateLastPage());
-        return THEME + "/another/index";
+    public String another(@RequestParam(value = "limit", defaultValue = "10") int limit, Model model) {
+        return this.anotherPage(1, limit, model);
     }
 
     @GetMapping(value = {"/another/page{page}"})
-    public String another(@PathVariable int page, @RequestParam(value = "limit", defaultValue = "6") int limit, Model model) {
+    public String anotherPage(@PathVariable int page, @RequestParam(value = "limit", defaultValue = "10") int limit, Model model) {
         PageInfo<ContentVo> contents = contentService.getContents(page, limit);
         model.addAttribute("articles", contents);
         model.addAttribute("page", page);
@@ -86,6 +82,22 @@ public class IndexController extends BaseController {
     @GetMapping(value = {"/another/contact"})
     public String contact() {
         return THEME + "/another/contact";
+    }
+
+    @GetMapping(value = {"/hux"})
+    public String hux(@RequestParam(value = "limit", defaultValue = "10") int limit, Model model) {
+        return this.huxPage(1, limit, model);
+    }
+
+    @GetMapping(value = {"/hux/page{page}"})
+    public String huxPage(@PathVariable int page, @RequestParam(value = "limit", defaultValue = "10") int limit, Model model) {
+        PageInfo<ContentVo> contents = contentService.getContents(page, limit);
+        model.addAttribute("articles", contents);
+        model.addAttribute("page", page);
+        model.addAttribute("lastPage", contents.getNavigateLastPage());
+        List<MetaDto> categories = metaService.getMetaList(Types.CATEGORY.getType(), null, WebConst.MAX_POSTS);
+        model.addAttribute("categories", categories);
+        return THEME + "/hux/index";
     }
 
     /**
@@ -114,7 +126,7 @@ public class IndexController extends BaseController {
      * @param cid     文章主键
      * @return
      */
-    @GetMapping(value = {"article/{cid}", "article/{cid}.html"})
+    @GetMapping(value = {"/article/{cid}", "/article/{cid}.html"})
     public String getArticle(HttpServletRequest request, @PathVariable String cid) {
         ContentVo contents = contentService.getContents(cid);
         if (null == contents || "draft".equals(contents.getStatus())) {
@@ -127,17 +139,19 @@ public class IndexController extends BaseController {
         return this.render("post");
     }
 
-    @GetMapping(value = {"/another/article/{cid}", "article/{cid}.html"})
-    public String getAnotherArticle(HttpServletRequest request, @PathVariable String cid) {
+    @GetMapping(value = {"/{theme}/article/{cid}", "/{theme}/article/{cid}.html"})
+    public String getThemeArticle(HttpServletRequest request, @PathVariable(name = "cid") String cid, @PathVariable(name = "theme") String theme) {
         ContentVo contents = contentService.getContents(cid);
         if (null == contents || "draft".equals(contents.getStatus())) {
             return this.render_404();
         }
         request.setAttribute("article", contents);
         request.setAttribute("is_post", true);
+        List<MetaDto> categories = metaService.getMetaList(Types.CATEGORY.getType(), null, WebConst.MAX_POSTS);
+        request.setAttribute("categories", categories);
         completeArticle(request, contents);
         updateArticleHit(contents.getCid(), contents.getHits());
-        return THEME + "/another/post";
+        return THEME + "/" + theme +"/post";
     }
 
     /**

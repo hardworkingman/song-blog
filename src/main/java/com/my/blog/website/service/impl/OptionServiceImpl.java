@@ -1,6 +1,6 @@
 package com.my.blog.website.service.impl;
 
-import com.my.blog.website.dao.OptionVoMapper;
+import com.my.blog.website.mapper.OptionVoMapper;
 import com.my.blog.website.modal.Vo.OptionVo;
 import com.my.blog.website.modal.Vo.OptionVoExample;
 import com.my.blog.website.service.IOptionService;

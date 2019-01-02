@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
 
-@MapperScan("com.my.blog.website.dao")
+@MapperScan("com.my.blog.website.mapper")
 @SpringBootApplication
 @EnableTransactionManagement
 public class CoreApplication extends SpringBootServletInitializer
