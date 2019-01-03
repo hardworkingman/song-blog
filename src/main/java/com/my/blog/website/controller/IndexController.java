@@ -12,10 +12,7 @@ import com.my.blog.website.modal.Bo.RestResponseBo;
 import com.my.blog.website.modal.Vo.CommentVo;
 import com.my.blog.website.modal.Vo.ContentVo;
 import com.my.blog.website.modal.Vo.MetaVo;
-import com.my.blog.website.service.ICommentService;
-import com.my.blog.website.service.IContentService;
-import com.my.blog.website.service.IMetaService;
-import com.my.blog.website.service.ISiteService;
+import com.my.blog.website.service.*;
 import com.my.blog.website.utils.IPKit;
 import com.my.blog.website.utils.PatternKit;
 import com.my.blog.website.utils.TaleUtils;
@@ -55,6 +52,9 @@ public class IndexController extends BaseController {
     @Autowired
     private ISiteService siteService;
 
+    @Autowired
+    private ArticleService articleService;
+
     /**
      * 首页
      *
@@ -91,7 +91,7 @@ public class IndexController extends BaseController {
 
     @GetMapping(value = {"/hux/page{page}"})
     public String huxPage(@PathVariable int page, @RequestParam(value = "limit", defaultValue = "10") int limit, Model model) {
-        PageInfo<ContentVo> contents = contentService.getContents(page, limit);
+        PageInfo<ContentVo> contents = articleService.getArticles(page, limit);
         model.addAttribute("articles", contents);
         model.addAttribute("page", page);
         model.addAttribute("lastPage", contents.getNavigateLastPage());
@@ -141,7 +141,8 @@ public class IndexController extends BaseController {
 
     @GetMapping(value = {"/{theme}/article/{cid}", "/{theme}/article/{cid}.html"})
     public String getThemeArticle(HttpServletRequest request, @PathVariable(name = "cid") String cid, @PathVariable(name = "theme") String theme) {
-        ContentVo contents = contentService.getContents(cid);
+//        ContentVo contents = contentService.getContents(cid);
+        ContentVo contents = articleService.getArticle(cid);
         if (null == contents || "draft".equals(contents.getStatus())) {
             return this.render_404();
         }
@@ -181,7 +182,7 @@ public class IndexController extends BaseController {
      * @param contents
      */
     private void completeArticle(HttpServletRequest request, ContentVo contents) {
-        if (contents.getAllowComment()) {
+        if (contents.getAllowComment() == 1) {
             String cp = request.getParameter("cp");
             if (StringUtils.isBlank(cp)) {
                 cp = "1";
@@ -349,7 +350,7 @@ public class IndexController extends BaseController {
         if (null == contents) {
             return this.render_404();
         }
-        if (contents.getAllowComment()) {
+        if (contents.getAllowComment() == 1) {
             String cp = request.getParameter("cp");
             if (StringUtils.isBlank(cp)) {
                 cp = "1";

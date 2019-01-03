@@ -5,7 +5,7 @@ import lombok.Data;
 import java.io.Serializable;
 
 /**
- * @author 
+ * @author xinzone
  */
 @Data
 public class ContentVo implements Serializable {
@@ -73,17 +73,17 @@ public class ContentVo implements Serializable {
     /**
      * 是否允许评论
      */
-    private Boolean allowComment;
+    private Integer allowComment;
 
     /**
      * 是否允许ping
      */
-    private Boolean allowPing;
+    private Integer allowPing;
 
     /**
      * 允许出现在聚合中
      */
-    private Boolean allowFeed;
+    private Integer allowFeed;
 
     /**
      * 内容文字

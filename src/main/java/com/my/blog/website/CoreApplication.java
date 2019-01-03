@@ -1,6 +1,7 @@
 package com.my.blog.website;
 
 import com.alibaba.druid.pool.DruidDataSource;
+import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.annotation.MapperScan;
@@ -20,8 +21,7 @@ import javax.sql.DataSource;
 @MapperScan("com.my.blog.website.mapper")
 @SpringBootApplication
 @EnableTransactionManagement
-public class CoreApplication extends SpringBootServletInitializer
-{
+public class CoreApplication extends SpringBootServletInitializer {
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
         return builder.sources(this.getClass());
@@ -34,11 +34,18 @@ public class CoreApplication extends SpringBootServletInitializer
     }
 
     @Bean
+    @ConfigurationProperties(prefix = "mybatis.configuration")
+    public Configuration configuration() {
+        return new Configuration();
+    }
+
+    @Bean
     public SqlSessionFactory sqlSessionFactoryBean() throws Exception {
         PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
         SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
         sqlSessionFactoryBean.setDataSource(dataSource());
         sqlSessionFactoryBean.setMapperLocations(resolver.getResources("classpath*:/mapper/*Mapper.xml"));
+        sqlSessionFactoryBean.setConfiguration(configuration());
         return sqlSessionFactoryBean.getObject();
     }
 

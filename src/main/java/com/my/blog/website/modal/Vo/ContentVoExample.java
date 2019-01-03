@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ContentVoExample {
+
     protected String orderByClause;
 
     protected boolean distinct;
@@ -15,7 +16,7 @@ public class ContentVoExample {
     private Integer offset;
 
     public ContentVoExample() {
-        oredCriteria = new ArrayList<Criteria>();
+        oredCriteria = new ArrayList<>();
     }
 
     public void setOrderByClause(String orderByClause) {

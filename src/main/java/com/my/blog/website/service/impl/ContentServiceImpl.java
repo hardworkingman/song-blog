@@ -3,9 +3,11 @@ package com.my.blog.website.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.my.blog.website.constant.WebConst;
-import com.my.blog.website.mapper.MetaVoMapper;
 import com.my.blog.website.dto.Types;
 import com.my.blog.website.exception.TipException;
+import com.my.blog.website.mapper.ArticleMapper;
+import com.my.blog.website.mapper.ContentVoMapper;
+import com.my.blog.website.mapper.MetaVoMapper;
 import com.my.blog.website.modal.Vo.ContentVo;
 import com.my.blog.website.modal.Vo.ContentVoExample;
 import com.my.blog.website.service.IContentService;
@@ -15,24 +17,26 @@ import com.my.blog.website.utils.DateKit;
 import com.my.blog.website.utils.TaleUtils;
 import com.my.blog.website.utils.Tools;
 import com.vdurmont.emoji.EmojiParser;
-import com.my.blog.website.mapper.ContentVoMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
 
 /**
- * Created by Administrator on 2017/3/13 013.
+ * Created by xinzone on 2019/1/2.
  */
 @Service
+@Slf4j
 public class ContentServiceImpl implements IContentService {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ContentServiceImpl.class);
 
     @Resource
     private ContentVoMapper contentDao;
+
+    @Autowired
+    private ArticleMapper articleMapper;
 
     @Resource
     private MetaVoMapper metaDao;
@@ -97,14 +101,14 @@ public class ContentServiceImpl implements IContentService {
 
     @Override
     public PageInfo<ContentVo> getContents(Integer p, Integer limit) {
-        LOGGER.debug("Enter getContents method");
+        log.debug("Enter getContents method");
         ContentVoExample example = new ContentVoExample();
         example.setOrderByClause("created desc");
         example.createCriteria().andTypeEqualTo(Types.ARTICLE.getType()).andStatusEqualTo(Types.PUBLISH.getType());
         PageHelper.startPage(p, limit);
         List<ContentVo> data = contentDao.selectByExampleWithBLOBs(example);
         PageInfo<ContentVo> pageInfo = new PageInfo<>(data);
-        LOGGER.debug("Exit getContents method");
+        log.debug("Exit getContents method");
         return pageInfo;
     }
 

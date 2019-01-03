@@ -5,16 +5,17 @@ import com.my.blog.website.constant.WebConst;
 import com.my.blog.website.controller.BaseController;
 import com.my.blog.website.dto.LogActions;
 import com.my.blog.website.dto.Types;
+import com.my.blog.website.entity.Attach;
 import com.my.blog.website.exception.TipException;
 import com.my.blog.website.modal.Bo.RestResponseBo;
-import com.my.blog.website.modal.Vo.AttachVo;
 import com.my.blog.website.modal.Vo.UserVo;
-import com.my.blog.website.service.IAttachService;
+import com.my.blog.website.service.AttachService;
 import com.my.blog.website.service.ILogService;
 import com.my.blog.website.utils.Commons;
+import com.my.blog.website.utils.DateKit;
 import com.my.blog.website.utils.TaleUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.FileCopyUtils;
@@ -31,26 +32,23 @@ import java.util.List;
 
 /**
  * 附件管理
- *
- * Created by 13 on 2017/2/21.
+ * @author xinzone
  */
+@Slf4j
 @Controller
-@RequestMapping("admin/attach")
+@RequestMapping("/admin/attach")
 public class AttachController extends BaseController {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(AttachController.class);
 
     public static final String CLASSPATH = TaleUtils.getUplodFilePath();
 
     @Resource
-    private IAttachService attachService;
-
-    @Resource
     private ILogService logService;
+
+    @Autowired
+    private AttachService attachService;
 
     /**
      * 附件页面
-     *
      * @param request
      * @param page
      * @param limit
@@ -59,7 +57,7 @@ public class AttachController extends BaseController {
     @GetMapping(value = "")
     public String index(HttpServletRequest request, @RequestParam(value = "page", defaultValue = "1") int page,
                         @RequestParam(value = "limit", defaultValue = "12") int limit) {
-        PageInfo<AttachVo> attachPaginator = attachService.getAttachs(page, limit);
+        PageInfo<Attach> attachPaginator = attachService.getAttachs(page, limit);
         request.setAttribute("attachs", attachPaginator);
         request.setAttribute(Types.ATTACH_URL.getType(), Commons.site_option(Types.ATTACH_URL.getType(), Commons.site_url()));
         request.setAttribute("max_file_size", WebConst.MAX_FILE_SIZE / 1024);
@@ -91,7 +89,7 @@ public class AttachController extends BaseController {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    attachService.save(fname, fkey, ftype, uid);
+                    attachService.save(Attach.builder().authorId(uid).fkey(fkey).fname(fname).ftype(ftype).created(DateKit.getCurrentUnixTime()).build());
                 } else {
                     errorFiles.add(fname);
                 }
@@ -113,7 +111,7 @@ public class AttachController extends BaseController {
     @Transactional(rollbackFor = TipException.class)
     public RestResponseBo delete(@RequestParam Integer id, HttpServletRequest request) {
         try {
-            AttachVo attach = attachService.selectById(id);
+            Attach attach = attachService.selectById(id);
             if (null == attach) return RestResponseBo.fail("不存在该附件");
             attachService.deleteById(id);
             new File(CLASSPATH+attach.getFkey()).delete();
@@ -121,7 +119,7 @@ public class AttachController extends BaseController {
         } catch (Exception e) {
             String msg = "附件删除失败";
             if (e instanceof TipException) msg = e.getMessage();
-            else LOGGER.error(msg, e);
+            else log.error(msg, e);
             return RestResponseBo.fail(msg);
         }
         return RestResponseBo.ok();

@@ -1,6 +1,6 @@
 package com.my.blog.website.mapper;
 
-import com.my.blog.website.modal.Vo.AttachVo;
+import com.my.blog.website.entity.Attach;
 import com.my.blog.website.modal.Vo.AttachVoExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
@@ -14,19 +14,19 @@ public interface AttachVoMapper {
 
     int deleteByPrimaryKey(Integer id);
 
-    int insert(AttachVo record);
+    int insert(Attach record);
 
-    int insertSelective(AttachVo record);
+    int insertSelective(Attach record);
 
-    List<AttachVo> selectByExample(AttachVoExample example);
+    List<Attach> selectByExample(AttachVoExample example);
 
-    AttachVo selectByPrimaryKey(Integer id);
+    Attach selectByPrimaryKey(Integer id);
 
-    int updateByExampleSelective(@Param("record") AttachVo record, @Param("example") AttachVoExample example);
+    int updateByExampleSelective(@Param("record") Attach record, @Param("example") AttachVoExample example);
 
-    int updateByExample(@Param("record") AttachVo record, @Param("example") AttachVoExample example);
+    int updateByExample(@Param("record") Attach record, @Param("example") AttachVoExample example);
 
-    int updateByPrimaryKeySelective(AttachVo record);
+    int updateByPrimaryKeySelective(Attach record);
 
-    int updateByPrimaryKey(AttachVo record);
+    int updateByPrimaryKey(Attach record);
 }

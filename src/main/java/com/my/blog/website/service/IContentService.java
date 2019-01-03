@@ -29,7 +29,6 @@ public interface IContentService {
      */
     PageInfo<ContentVo> getContents(Integer p, Integer limit);
 
-
     /**
      * 根据id或slug获取文章
      *

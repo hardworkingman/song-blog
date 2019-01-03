@@ -73,10 +73,10 @@ public class PageController extends BaseController {
         contents.setSlug(slug);
         contents.setType(Types.PAGE.getType());
         if (null != allowComment) {
-            contents.setAllowComment(allowComment == 1);
+            contents.setAllowComment(allowComment);
         }
         if (null != allowPing) {
-            contents.setAllowPing(allowPing == 1);
+            contents.setAllowPing(allowPing);
         }
         contents.setAuthorId(users.getUid());
 
@@ -111,10 +111,10 @@ public class PageController extends BaseController {
         contents.setSlug(slug);
         contents.setType(Types.PAGE.getType());
         if (null != allowComment) {
-            contents.setAllowComment(allowComment == 1);
+            contents.setAllowComment(allowComment);
         }
         if (null != allowPing) {
-            contents.setAllowPing(allowPing == 1);
+            contents.setAllowPing(allowPing);
         }
         contents.setAuthorId(users.getUid());
         try {

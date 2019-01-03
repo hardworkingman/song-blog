@@ -4,26 +4,23 @@ import com.github.pagehelper.PageInfo;
 import com.my.blog.website.entity.Attach;
 
 /**
- * Created by wangq on 2017/3/20.
+ * 附件接口
+ * @author xinzone
  */
-public interface IAttachService {
+public interface AttachService {
     /**
      * 分页查询附件
-     * @param page
-     * @param limit
+     * @param page 页码
+     * @param limit 页大小
      * @return
      */
     PageInfo<Attach> getAttachs(Integer page, Integer limit);
 
     /**
      * 保存附件
-     *
-     * @param fname
-     * @param fkey
-     * @param ftype
-     * @param author
+     * @param attach 附件信息
      */
-    void save(String fname, String fkey, String ftype, Integer author);
+    void save(Attach attach);
 
     /**
      * 根据附件id查询附件
