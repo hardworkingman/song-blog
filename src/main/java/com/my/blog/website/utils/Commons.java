@@ -2,13 +2,13 @@ package com.my.blog.website.utils;
 
 
 import com.github.pagehelper.PageInfo;
+import com.my.blog.website.entity.Content;
 import com.my.blog.website.service.ISiteService;
 import com.vdurmont.emoji.EmojiParser;
 import com.my.blog.website.constant.WebConst;
 import com.my.blog.website.dto.MetaDto;
 import com.my.blog.website.dto.Types;
 import com.my.blog.website.modal.Vo.CommentVo;
-import com.my.blog.website.modal.Vo.ContentVo;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
@@ -186,7 +186,7 @@ public final class Commons {
      * @param contents
      * @return
      */
-    public static String permalink(ContentVo contents) {
+    public static String permalink(Content contents) {
         return permalink(contents.getCid(), contents.getSlug());
     }
 
@@ -321,7 +321,7 @@ public final class Commons {
      *
      * @return
      */
-    public static String show_thumb(ContentVo contents) {
+    public static String show_thumb(Content contents) {
         int cid = contents.getCid();
         int size = cid % 20;
         size = size == 0 ? 1 : size;
@@ -334,7 +334,7 @@ public final class Commons {
      * @param limit
      * @return
      */
-    public static List<ContentVo> recent_articles(int limit) {
+    public static List<Content> recent_articles(int limit) {
         if (null == siteService) {
             return EMPTY;
         }

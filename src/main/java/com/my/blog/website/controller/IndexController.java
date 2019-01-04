@@ -2,15 +2,16 @@ package com.my.blog.website.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.my.blog.website.constant.WebConst;
+import com.my.blog.website.dto.ArticleDto;
 import com.my.blog.website.dto.ErrorCode;
 import com.my.blog.website.dto.MetaDto;
 import com.my.blog.website.dto.Types;
+import com.my.blog.website.entity.Content;
 import com.my.blog.website.exception.TipException;
 import com.my.blog.website.modal.Bo.ArchiveBo;
 import com.my.blog.website.modal.Bo.CommentBo;
 import com.my.blog.website.modal.Bo.RestResponseBo;
 import com.my.blog.website.modal.Vo.CommentVo;
-import com.my.blog.website.modal.Vo.ContentVo;
 import com.my.blog.website.modal.Vo.MetaVo;
 import com.my.blog.website.service.*;
 import com.my.blog.website.utils.IPKit;
@@ -72,7 +73,7 @@ public class IndexController extends BaseController {
 
     @GetMapping(value = {"/another/page{page}"})
     public String anotherPage(@PathVariable int page, @RequestParam(value = "limit", defaultValue = "10") int limit, Model model) {
-        PageInfo<ContentVo> contents = contentService.getContents(page, limit);
+        PageInfo<Content> contents = contentService.getContents(page, limit);
         model.addAttribute("articles", contents);
         model.addAttribute("page", page);
         model.addAttribute("lastPage", contents.getNavigateLastPage());
@@ -91,7 +92,7 @@ public class IndexController extends BaseController {
 
     @GetMapping(value = {"/hux/page{page}"})
     public String huxPage(@PathVariable int page, @RequestParam(value = "limit", defaultValue = "10") int limit, Model model) {
-        PageInfo<ContentVo> contents = articleService.getArticles(page, limit);
+        PageInfo<Content> contents = articleService.getArticles(page, limit);
         model.addAttribute("articles", contents);
         model.addAttribute("page", page);
         model.addAttribute("lastPage", contents.getNavigateLastPage());
@@ -111,7 +112,7 @@ public class IndexController extends BaseController {
     @GetMapping(value = "page/{p}")
     public String index(HttpServletRequest request, @PathVariable int p, @RequestParam(value = "limit", defaultValue = "12") int limit) {
         p = p < 0 || p > WebConst.MAX_PAGE ? 1 : p;
-        PageInfo<ContentVo> articles = contentService.getContents(p, limit);
+        PageInfo<Content> articles = contentService.getContents(p, limit);
         request.setAttribute("articles", articles);
         if (p > 1) {
             this.title(request, "第" + p + "页");
@@ -128,7 +129,7 @@ public class IndexController extends BaseController {
      */
     @GetMapping(value = {"/article/{cid}", "/article/{cid}.html"})
     public String getArticle(HttpServletRequest request, @PathVariable String cid) {
-        ContentVo contents = contentService.getContents(cid);
+        Content contents = contentService.getContents(cid);
         if (null == contents || "draft".equals(contents.getStatus())) {
             return this.render_404();
         }
@@ -141,8 +142,8 @@ public class IndexController extends BaseController {
 
     @GetMapping(value = {"/{theme}/article/{cid}", "/{theme}/article/{cid}.html"})
     public String getThemeArticle(HttpServletRequest request, @PathVariable(name = "cid") String cid, @PathVariable(name = "theme") String theme) {
-//        ContentVo contents = contentService.getContents(cid);
-        ContentVo contents = articleService.getArticle(cid);
+//        Content contents = contentService.getContents(cid);
+        ArticleDto contents = articleService.getArticle(cid);
         if (null == contents || "draft".equals(contents.getStatus())) {
             return this.render_404();
         }
@@ -150,7 +151,7 @@ public class IndexController extends BaseController {
         request.setAttribute("is_post", true);
         List<MetaDto> categories = metaService.getMetaList(Types.CATEGORY.getType(), null, WebConst.MAX_POSTS);
         request.setAttribute("categories", categories);
-        completeArticle(request, contents);
+//        completeArticle(request, contents);
         updateArticleHit(contents.getCid(), contents.getHits());
         return THEME + "/" + theme +"/post";
     }
@@ -164,7 +165,7 @@ public class IndexController extends BaseController {
      */
     @GetMapping(value = {"article/{cid}/preview", "article/{cid}.html"})
     public String articlePreview(HttpServletRequest request, @PathVariable String cid) {
-        ContentVo contents = contentService.getContents(cid);
+        Content contents = contentService.getContents(cid);
         if (null == contents) {
             return this.render_404();
         }
@@ -181,7 +182,7 @@ public class IndexController extends BaseController {
      * @param request
      * @param contents
      */
-    private void completeArticle(HttpServletRequest request, ContentVo contents) {
+    private void completeArticle(HttpServletRequest request, Content contents) {
         if (contents.getAllowComment() == 1) {
             String cp = request.getParameter("cp");
             if (StringUtils.isBlank(cp)) {
@@ -306,7 +307,7 @@ public class IndexController extends BaseController {
             return this.render_404();
         }
 
-        PageInfo<ContentVo> contentsPaginator = contentService.getArticles(metaDto.getMid(), page, limit);
+        PageInfo<Content> contentsPaginator = contentService.getArticles(metaDto.getMid(), page, limit);
 
         request.setAttribute("articles", contentsPaginator);
         request.setAttribute("meta", metaDto);
@@ -346,7 +347,7 @@ public class IndexController extends BaseController {
      */
     @GetMapping(value = "/{pagename}")
     public String page(@PathVariable String pagename, HttpServletRequest request) {
-        ContentVo contents = contentService.getContents(pagename);
+        Content contents = contentService.getContents(pagename);
         if (null == contents) {
             return this.render_404();
         }
@@ -378,7 +379,7 @@ public class IndexController extends BaseController {
     @GetMapping(value = "search/{keyword}/{page}")
     public String search(HttpServletRequest request, @PathVariable String keyword, @PathVariable int page, @RequestParam(value = "limit", defaultValue = "12") int limit) {
         page = page < 0 || page > WebConst.MAX_PAGE ? 1 : page;
-        PageInfo<ContentVo> articles = contentService.getArticles(keyword, page, limit);
+        PageInfo<Content> articles = contentService.getArticles(keyword, page, limit);
         request.setAttribute("articles", articles);
         request.setAttribute("type", "搜索");
         request.setAttribute("keyword", keyword);
@@ -399,7 +400,7 @@ public class IndexController extends BaseController {
         }
         hits = null == hits ? 1 : hits + 1;
         if (hits >= WebConst.HIT_EXCEED) {
-            ContentVo temp = new ContentVo();
+            Content temp = new Content();
             temp.setCid(cid);
             temp.setHits(chits + hits);
             contentService.updateContentByCid(temp);
@@ -440,7 +441,7 @@ public class IndexController extends BaseController {
             return this.render_404();
         }
 
-        PageInfo<ContentVo> contentsPaginator = contentService.getArticles(metaDto.getMid(), page, limit);
+        PageInfo<Content> contentsPaginator = contentService.getArticles(metaDto.getMid(), page, limit);
         request.setAttribute("articles", contentsPaginator);
         request.setAttribute("meta", metaDto);
         request.setAttribute("type", "标签");

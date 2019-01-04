@@ -7,7 +7,7 @@ import com.my.blog.website.dto.LogActions;
 import com.my.blog.website.dto.Types;
 import com.my.blog.website.exception.TipException;
 import com.my.blog.website.modal.Bo.RestResponseBo;
-import com.my.blog.website.modal.Vo.ContentVo;
+import com.my.blog.website.entity.Content;
 import com.my.blog.website.modal.Vo.ContentVoExample;
 import com.my.blog.website.modal.Vo.MetaVo;
 import com.my.blog.website.modal.Vo.UserVo;
@@ -57,7 +57,7 @@ public class ArticleController extends BaseController {
         ContentVoExample contentVoExample = new ContentVoExample();
         contentVoExample.setOrderByClause("created desc");
         contentVoExample.createCriteria().andTypeEqualTo(Types.ARTICLE.getType());
-        PageInfo<ContentVo> contentsPaginator = contentsService.getArticlesWithpage(contentVoExample,page,limit);
+        PageInfo<Content> contentsPaginator = contentsService.getArticlesWithpage(contentVoExample,page,limit);
         request.setAttribute("articles", contentsPaginator);
         return "admin/article_list";
     }
@@ -82,7 +82,7 @@ public class ArticleController extends BaseController {
      */
     @GetMapping(value = "/{cid}")
     public String editArticle(@PathVariable String cid, HttpServletRequest request) {
-        ContentVo contents = contentsService.getContents(cid);
+        Content contents = contentsService.getContents(cid);
         request.setAttribute("contents", contents);
         List<MetaVo> categories = metasService.getMetas(Types.CATEGORY.getType());
         request.setAttribute("categories", categories);
@@ -99,7 +99,7 @@ public class ArticleController extends BaseController {
     @PostMapping(value = "/publish")
     @ResponseBody
     @Transactional(rollbackFor = TipException.class)
-    public RestResponseBo publishArticle(ContentVo contents,  HttpServletRequest request) {
+    public RestResponseBo publishArticle(Content contents, HttpServletRequest request) {
         UserVo users = this.user(request);
         contents.setAuthorId(users.getUid());
         contents.setType(Types.ARTICLE.getType());
@@ -129,7 +129,7 @@ public class ArticleController extends BaseController {
     @PostMapping(value = "/modify")
     @ResponseBody
     @Transactional(rollbackFor = TipException.class)
-    public RestResponseBo modifyArticle(ContentVo contents,HttpServletRequest request) {
+    public RestResponseBo modifyArticle(Content contents, HttpServletRequest request) {
         UserVo users = this.user(request);
         contents.setAuthorId(users.getUid());
         contents.setType(Types.ARTICLE.getType());

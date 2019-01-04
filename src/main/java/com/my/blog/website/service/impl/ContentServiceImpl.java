@@ -8,7 +8,7 @@ import com.my.blog.website.exception.TipException;
 import com.my.blog.website.mapper.ArticleMapper;
 import com.my.blog.website.mapper.ContentVoMapper;
 import com.my.blog.website.mapper.MetaVoMapper;
-import com.my.blog.website.modal.Vo.ContentVo;
+import com.my.blog.website.entity.Content;
 import com.my.blog.website.modal.Vo.ContentVoExample;
 import com.my.blog.website.service.IContentService;
 import com.my.blog.website.service.IMetaService;
@@ -48,7 +48,7 @@ public class ContentServiceImpl implements IContentService {
     private IMetaService metasService;
 
     @Override
-    public void publish(ContentVo contents) {
+    public void publish(Content contents) {
         if (null == contents) {
             throw new TipException("文章对象为空");
         }
@@ -100,60 +100,60 @@ public class ContentServiceImpl implements IContentService {
     }
 
     @Override
-    public PageInfo<ContentVo> getContents(Integer p, Integer limit) {
+    public PageInfo<Content> getContents(Integer p, Integer limit) {
         log.debug("Enter getContents method");
         ContentVoExample example = new ContentVoExample();
         example.setOrderByClause("created desc");
         example.createCriteria().andTypeEqualTo(Types.ARTICLE.getType()).andStatusEqualTo(Types.PUBLISH.getType());
         PageHelper.startPage(p, limit);
-        List<ContentVo> data = contentDao.selectByExampleWithBLOBs(example);
-        PageInfo<ContentVo> pageInfo = new PageInfo<>(data);
+        List<Content> data = contentDao.selectByExampleWithBLOBs(example);
+        PageInfo<Content> pageInfo = new PageInfo<>(data);
         log.debug("Exit getContents method");
         return pageInfo;
     }
 
     @Override
-    public ContentVo getContents(String id) {
+    public Content getContents(String id) {
         if (StringUtils.isNotBlank(id)) {
             if (Tools.isNumber(id)) {
-                ContentVo contentVo = contentDao.selectByPrimaryKey(Integer.valueOf(id));
-                if (contentVo != null) {
-                    contentVo.setHits(contentVo.getHits() + 1);
-                    contentDao.updateByPrimaryKey(contentVo);
+                Content content = contentDao.selectByPrimaryKey(Integer.valueOf(id));
+                if (content != null) {
+                    content.setHits(content.getHits() + 1);
+                    contentDao.updateByPrimaryKey(content);
                 }
-                return contentVo;
+                return content;
             } else {
                 ContentVoExample contentVoExample = new ContentVoExample();
                 contentVoExample.createCriteria().andSlugEqualTo(id);
-                List<ContentVo> contentVos = contentDao.selectByExampleWithBLOBs(contentVoExample);
-                if (contentVos.size() != 1) {
+                List<Content> contents = contentDao.selectByExampleWithBLOBs(contentVoExample);
+                if (contents.size() != 1) {
                     throw new TipException("query content by id and return is not one");
                 }
-                return contentVos.get(0);
+                return contents.get(0);
             }
         }
         return null;
     }
 
     @Override
-    public void updateContentByCid(ContentVo contentVo) {
-        if (null != contentVo && null != contentVo.getCid()) {
-            contentDao.updateByPrimaryKeySelective(contentVo);
+    public void updateContentByCid(Content content) {
+        if (null != content && null != content.getCid()) {
+            contentDao.updateByPrimaryKeySelective(content);
         }
     }
 
     @Override
-    public PageInfo<ContentVo> getArticles(Integer mid, int page, int limit) {
+    public PageInfo<Content> getArticles(Integer mid, int page, int limit) {
         int total = metaDao.countWithSql(mid);
         PageHelper.startPage(page, limit);
-        List<ContentVo> list = contentDao.findByCatalog(mid);
-        PageInfo<ContentVo> paginator = new PageInfo<>(list);
+        List<Content> list = contentDao.findByCatalog(mid);
+        PageInfo<Content> paginator = new PageInfo<>(list);
         paginator.setTotal(total);
         return paginator;
     }
 
     @Override
-    public PageInfo<ContentVo> getArticles(String keyword, Integer page, Integer limit) {
+    public PageInfo<Content> getArticles(String keyword, Integer page, Integer limit) {
         PageHelper.startPage(page, limit);
         ContentVoExample contentVoExample = new ContentVoExample();
         ContentVoExample.Criteria criteria = contentVoExample.createCriteria();
@@ -161,20 +161,20 @@ public class ContentServiceImpl implements IContentService {
         criteria.andStatusEqualTo(Types.PUBLISH.getType());
         criteria.andTitleLike("%" + keyword + "%");
         contentVoExample.setOrderByClause("created desc");
-        List<ContentVo> contentVos = contentDao.selectByExampleWithBLOBs(contentVoExample);
-        return new PageInfo<>(contentVos);
+        List<Content> contents = contentDao.selectByExampleWithBLOBs(contentVoExample);
+        return new PageInfo<>(contents);
     }
 
     @Override
-    public PageInfo<ContentVo> getArticlesWithpage(ContentVoExample commentVoExample, Integer page, Integer limit) {
+    public PageInfo<Content> getArticlesWithpage(ContentVoExample commentVoExample, Integer page, Integer limit) {
         PageHelper.startPage(page, limit);
-        List<ContentVo> contentVos = contentDao.selectByExampleWithBLOBs(commentVoExample);
-        return new PageInfo<>(contentVos);
+        List<Content> contents = contentDao.selectByExampleWithBLOBs(commentVoExample);
+        return new PageInfo<>(contents);
     }
 
     @Override
     public void deleteByCid(Integer cid) {
-        ContentVo contents = this.getContents(cid + "");
+        Content contents = this.getContents(cid + "");
         if (null != contents) {
             contentDao.deleteByPrimaryKey(cid);
             relationshipService.deleteById(cid, null);
@@ -183,15 +183,15 @@ public class ContentServiceImpl implements IContentService {
 
     @Override
     public void updateCategory(String ordinal, String newCatefory) {
-        ContentVo contentVo = new ContentVo();
-        contentVo.setCategories(newCatefory);
+        Content content = new Content();
+        content.setCategories(newCatefory);
         ContentVoExample example = new ContentVoExample();
         example.createCriteria().andCategoriesEqualTo(ordinal);
-        contentDao.updateByExampleSelective(contentVo, example);
+        contentDao.updateByExampleSelective(content, example);
     }
 
     @Override
-    public void updateArticle(ContentVo contents) {
+    public void updateArticle(Content contents) {
         if (null == contents || null == contents.getCid()) {
             throw new TipException("文章对象不能为空");
         }

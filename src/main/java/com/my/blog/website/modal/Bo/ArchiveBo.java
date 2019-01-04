@@ -1,6 +1,6 @@
 package com.my.blog.website.modal.Bo;
 
-import com.my.blog.website.modal.Vo.ContentVo;
+import com.my.blog.website.entity.Content;
 
 import java.io.Serializable;
 import java.util.List;
@@ -12,7 +12,7 @@ public class ArchiveBo implements Serializable {
 
     private String date;
     private String count;
-    private List<ContentVo> articles;
+    private List<Content> articles;
 
     public String getDate() {
         return date;
@@ -30,11 +30,11 @@ public class ArchiveBo implements Serializable {
         this.count = count;
     }
 
-    public List<ContentVo> getArticles() {
+    public List<Content> getArticles() {
         return articles;
     }
 
-    public void setArticles(List<ContentVo> articles) {
+    public void setArticles(List<Content> articles) {
         this.articles = articles;
     }
 

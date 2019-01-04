@@ -3,13 +3,13 @@ package com.my.blog.website.controller.admin;
 import com.github.pagehelper.PageInfo;
 import com.my.blog.website.exception.TipException;
 import com.my.blog.website.modal.Bo.RestResponseBo;
+import com.my.blog.website.entity.Content;
 import com.my.blog.website.modal.Vo.UserVo;
 import com.my.blog.website.service.ILogService;
 import com.my.blog.website.constant.WebConst;
 import com.my.blog.website.controller.BaseController;
 import com.my.blog.website.dto.LogActions;
 import com.my.blog.website.dto.Types;
-import com.my.blog.website.modal.Vo.ContentVo;
 import com.my.blog.website.modal.Vo.ContentVoExample;
 import com.my.blog.website.service.IContentService;
 import org.slf4j.Logger;
@@ -41,7 +41,7 @@ public class PageController extends BaseController {
         ContentVoExample contentVoExample = new ContentVoExample();
         contentVoExample.setOrderByClause("created desc");
         contentVoExample.createCriteria().andTypeEqualTo(Types.PAGE.getType());
-        PageInfo<ContentVo> contentsPaginator = contentsService.getArticlesWithpage(contentVoExample, 1, WebConst.MAX_POSTS);
+        PageInfo<Content> contentsPaginator = contentsService.getArticlesWithpage(contentVoExample, 1, WebConst.MAX_POSTS);
         request.setAttribute("articles", contentsPaginator);
         return "admin/page_list";
     }
@@ -53,7 +53,7 @@ public class PageController extends BaseController {
 
     @GetMapping(value = "/{cid}")
     public String editPage(@PathVariable String cid, HttpServletRequest request) {
-        ContentVo contents = contentsService.getContents(cid);
+        Content contents = contentsService.getContents(cid);
         request.setAttribute("contents", contents);
         return "admin/page_edit";
     }
@@ -66,7 +66,7 @@ public class PageController extends BaseController {
                                       @RequestParam(required = false) Integer allowComment, @RequestParam(required = false) Integer allowPing, HttpServletRequest request) {
 
         UserVo users = this.user(request);
-        ContentVo contents = new ContentVo();
+        Content contents = new Content();
         contents.setTitle(title);
         contents.setContent(content);
         contents.setStatus(status);
@@ -103,7 +103,7 @@ public class PageController extends BaseController {
                                         @RequestParam(required = false) Integer allowComment, @RequestParam(required = false) Integer allowPing, HttpServletRequest request) {
 
         UserVo users = this.user(request);
-        ContentVo contents = new ContentVo();
+        Content contents = new Content();
         contents.setCid(cid);
         contents.setTitle(title);
         contents.setContent(content);

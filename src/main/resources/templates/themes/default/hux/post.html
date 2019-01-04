@@ -43,16 +43,16 @@
                 </div>
                 <hr style="visibility: hidden;">
                 <ul class="pager">
-                    <li class="previous">
-                        <a href="https://huangxuan.me/2017/06/24/you-are-slaves/" data-toggle="tooltip" data-placement="top" title="他是狗，你们便是苟奴隶">
+                    <li class="previous" th:if="${article.previous != null}">
+                        <a th:href="@{'/hux/article/' + ${article.previous.cid}}" data-toggle="tooltip" data-placement="top" th:title="${article.previous.title}">
                             Previous<br>
-                            <span>他是狗，你们便是苟奴隶</span>
+                            <span th:text="${article.previous.title}"></span>
                         </a>
                     </li>
-                    <li class="next">
-                        <a href="https://huangxuan.me/2017/07/26/farewell-flash/" data-toggle="tooltip" data-placement="top" title="Farewell, Flash. 感谢你，但这一次是真正的永别。">
+                    <li class="next" th:if="${article.older != null}">
+                        <a th:href="@{'/hux/article/' + ${article.older.cid}}" data-toggle="tooltip" data-placement="top" th:title="${article.older.title}">
                             Next<br>
-                            <span>Farewell, Flash. 感谢你，但这一次是真正的永别。</span>
+                            <span th:text="${article.older.title}"></span>
                         </a>
                     </li>
                 </ul>

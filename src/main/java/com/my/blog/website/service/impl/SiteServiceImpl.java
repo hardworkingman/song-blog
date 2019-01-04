@@ -1,6 +1,7 @@
 package com.my.blog.website.service.impl;
 
 import com.github.pagehelper.PageHelper;
+import com.my.blog.website.entity.Content;
 import com.my.blog.website.mapper.AttachVoMapper;
 import com.my.blog.website.dto.MetaDto;
 import com.my.blog.website.exception.TipException;
@@ -66,7 +67,7 @@ public class SiteServiceImpl implements ISiteService {
     }
 
     @Override
-    public List<ContentVo> recentContents(int limit) {
+    public List<Content> recentContents(int limit) {
         LOGGER.debug("Enter recentContents method");
         if (limit < 0 || limit > 10) {
             limit = 10;
@@ -75,7 +76,7 @@ public class SiteServiceImpl implements ISiteService {
         example.createCriteria().andStatusEqualTo(Types.PUBLISH.getType()).andTypeEqualTo(Types.ARTICLE.getType());
         example.setOrderByClause("created desc");
         PageHelper.startPage(1, limit);
-        List<ContentVo> list = contentDao.selectByExample(example);
+        List<Content> list = contentDao.selectByExample(example);
         LOGGER.debug("Exit recentContents method");
         return list;
     }
@@ -191,7 +192,7 @@ public class SiteServiceImpl implements ISiteService {
                 int end = DateKit.getUnixTimeByDate(DateKit.dateAdd(DateKit.INTERVAL_MONTH, sd, 1)) - 1;
                 criteria.andCreatedGreaterThan(start);
                 criteria.andCreatedLessThan(end);
-                List<ContentVo> contentss = contentDao.selectByExample(example);
+                List<Content> contentss = contentDao.selectByExample(example);
                 archive.setArticles(contentss);
             });
         }

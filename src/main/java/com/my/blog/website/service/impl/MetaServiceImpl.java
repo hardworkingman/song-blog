@@ -9,7 +9,7 @@ import com.my.blog.website.modal.Vo.RelationshipVoKey;
 import com.my.blog.website.service.IMetaService;
 import com.my.blog.website.service.IRelationshipService;
 import com.my.blog.website.mapper.MetaVoMapper;
-import com.my.blog.website.modal.Vo.ContentVo;
+import com.my.blog.website.entity.Content;
 import com.my.blog.website.modal.Vo.MetaVoExample;
 import com.my.blog.website.service.IContentService;
 import org.apache.commons.lang3.StringUtils;
@@ -92,9 +92,9 @@ public class MetaServiceImpl implements IMetaService {
             List<RelationshipVoKey> rlist = relationshipService.getRelationshipById(null, mid);
             if (null != rlist) {
                 for (RelationshipVoKey r : rlist) {
-                    ContentVo contents = contentService.getContents(String.valueOf(r.getCid()));
+                    Content contents = contentService.getContents(String.valueOf(r.getCid()));
                     if (null != contents) {
-                        ContentVo temp = new ContentVo();
+                        Content temp = new Content();
                         temp.setCid(r.getCid());
                         if (type.equals(Types.CATEGORY.getType())) {
                             temp.setCategories(reMeta(name, contents.getCategories()));

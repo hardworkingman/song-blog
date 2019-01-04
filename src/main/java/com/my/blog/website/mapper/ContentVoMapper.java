@@ -1,7 +1,7 @@
 package com.my.blog.website.mapper;
 
 import com.my.blog.website.modal.Bo.ArchiveBo;
-import com.my.blog.website.modal.Vo.ContentVo;
+import com.my.blog.website.entity.Content;
 import com.my.blog.website.modal.Vo.ContentVoExample;
 
 import java.util.List;
@@ -16,29 +16,29 @@ public interface ContentVoMapper {
 
     int deleteByPrimaryKey(Integer cid);
 
-    int insert(ContentVo record);
+    int insert(Content record);
 
-    int insertSelective(ContentVo record);
+    int insertSelective(Content record);
 
-    List<ContentVo> selectByExampleWithBLOBs(ContentVoExample example);
+    List<Content> selectByExampleWithBLOBs(ContentVoExample example);
 
-    List<ContentVo> selectByExample(ContentVoExample example);
+    List<Content> selectByExample(ContentVoExample example);
 
-    ContentVo selectByPrimaryKey(Integer cid);
+    Content selectByPrimaryKey(Integer cid);
 
-    int updateByExampleSelective(@Param("record") ContentVo record, @Param("example") ContentVoExample example);
+    int updateByExampleSelective(@Param("record") Content record, @Param("example") ContentVoExample example);
 
-    int updateByExampleWithBLOBs(@Param("record") ContentVo record, @Param("example") ContentVoExample example);
+    int updateByExampleWithBLOBs(@Param("record") Content record, @Param("example") ContentVoExample example);
 
-    int updateByExample(@Param("record") ContentVo record, @Param("example") ContentVoExample example);
+    int updateByExample(@Param("record") Content record, @Param("example") ContentVoExample example);
 
-    int updateByPrimaryKeySelective(ContentVo record);
+    int updateByPrimaryKeySelective(Content record);
 
-    int updateByPrimaryKeyWithBLOBs(ContentVo record);
+    int updateByPrimaryKeyWithBLOBs(Content record);
 
-    int updateByPrimaryKey(ContentVo record);
+    int updateByPrimaryKey(Content record);
 
     List<ArchiveBo> findReturnArchiveBo();
 
-    List<ContentVo> findByCatalog(Integer mid);
+    List<Content> findByCatalog(Integer mid);
 }

@@ -3,13 +3,13 @@ package com.my.blog.website.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.my.blog.website.exception.TipException;
+import com.my.blog.website.entity.Content;
 import com.my.blog.website.utils.DateKit;
 import com.my.blog.website.utils.TaleUtils;
 import com.my.blog.website.mapper.CommentVoMapper;
 import com.my.blog.website.modal.Bo.CommentBo;
 import com.my.blog.website.modal.Vo.CommentVo;
 import com.my.blog.website.modal.Vo.CommentVoExample;
-import com.my.blog.website.modal.Vo.ContentVo;
 import com.my.blog.website.service.ICommentService;
 import com.my.blog.website.service.IContentService;
 import org.apache.commons.lang3.StringUtils;
@@ -54,7 +54,7 @@ public class CommentServiceImpl implements ICommentService {
         if (null == comments.getCid()) {
             throw new TipException("评论文章不能为空");
         }
-        ContentVo contents = contentService.getContents(String.valueOf(comments.getCid()));
+        Content contents = contentService.getContents(String.valueOf(comments.getCid()));
         if (null == contents) {
             throw new TipException("不存在的文章");
         }
@@ -62,7 +62,7 @@ public class CommentServiceImpl implements ICommentService {
         comments.setCreated(DateKit.getCurrentUnixTime());
         commentDao.insertSelective(comments);
 
-        ContentVo temp = new ContentVo();
+        Content temp = new Content();
         temp.setCid(contents.getCid());
         temp.setCommentsNum(contents.getCommentsNum() + 1);
         contentService.updateContentByCid(temp);
@@ -113,9 +113,9 @@ public class CommentServiceImpl implements ICommentService {
             throw new TipException("主键为空");
         }
         commentDao.deleteByPrimaryKey(coid);
-        ContentVo contents = contentService.getContents(cid + "");
+        Content contents = contentService.getContents(cid + "");
         if (null != contents && contents.getCommentsNum() > 0) {
-            ContentVo temp = new ContentVo();
+            Content temp = new Content();
             temp.setCid(cid);
             temp.setCommentsNum(contents.getCommentsNum() - 1);
             contentService.updateContentByCid(temp);

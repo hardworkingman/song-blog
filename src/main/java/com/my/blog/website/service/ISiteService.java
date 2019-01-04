@@ -5,7 +5,7 @@ import com.my.blog.website.modal.Bo.ArchiveBo;
 import com.my.blog.website.modal.Bo.BackResponseBo;
 import com.my.blog.website.modal.Bo.StatisticsBo;
 import com.my.blog.website.modal.Vo.CommentVo;
-import com.my.blog.website.modal.Vo.ContentVo;
+import com.my.blog.website.entity.Content;
 
 import java.util.List;
 
@@ -31,7 +31,7 @@ public interface ISiteService {
      * @param limit
      * @return
      */
-    List<ContentVo> recentContents(int limit);
+    List<Content> recentContents(int limit);
 
     /**
      * 查询一条评论

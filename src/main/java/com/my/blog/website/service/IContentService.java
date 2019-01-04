@@ -1,8 +1,8 @@
 package com.my.blog.website.service;
 
 import com.github.pagehelper.PageInfo;
+import com.my.blog.website.entity.Content;
 import com.my.blog.website.modal.Vo.ContentVoExample;
-import com.my.blog.website.modal.Vo.ContentVo;
 
 /**
  * Created by Administrator on 2017/3/13 013.
@@ -13,35 +13,35 @@ public interface IContentService {
 //     * 保存文章
 //     * @param contentVo contentVo
 //     */
-//    void insertContent(ContentVo contentVo);
+//    void insertContent(Content contentVo);
 
     /**
      * 发布文章
      * @param contents
      */
-    void publish(ContentVo contents);
+    void publish(Content contents);
 
     /**
      *查询文章返回多条数据
      * @param p 当前页
      * @param limit 每页条数
-     * @return ContentVo
+     * @return Content
      */
-    PageInfo<ContentVo> getContents(Integer p, Integer limit);
+    PageInfo<Content> getContents(Integer p, Integer limit);
 
     /**
      * 根据id或slug获取文章
      *
      * @param id id
-     * @return ContentVo
+     * @return Content
      */
-    ContentVo getContents(String id);
+    Content getContents(String id);
 
     /**
      * 根据主键更新
-     * @param contentVo contentVo
+     * @param content content
      */
-    void updateContentByCid(ContentVo contentVo);
+    void updateContentByCid(Content content);
 
 
     /**
@@ -49,18 +49,18 @@ public interface IContentService {
      * @param mid mid
      * @param page page
      * @param limit limit
-     * @return ContentVo
+     * @return Content
      */
-    PageInfo<ContentVo> getArticles(Integer mid, int page, int limit);
+    PageInfo<Content> getArticles(Integer mid, int page, int limit);
 
     /**
      * 搜索、分页
      * @param keyword keyword
      * @param page page
      * @param limit limit
-     * @return ContentVo
+     * @return Content
      */
-    PageInfo<ContentVo> getArticles(String keyword,Integer page,Integer limit);
+    PageInfo<Content> getArticles(String keyword, Integer page, Integer limit);
 
 
     /**
@@ -69,7 +69,7 @@ public interface IContentService {
      * @param limit
      * @return
      */
-    PageInfo<ContentVo> getArticlesWithpage(ContentVoExample commentVoExample, Integer page, Integer limit);
+    PageInfo<Content> getArticlesWithpage(ContentVoExample commentVoExample, Integer page, Integer limit);
     /**
      * 根据文章id删除
      * @param cid
@@ -80,7 +80,7 @@ public interface IContentService {
      * 编辑文章
      * @param contents
      */
-    void updateArticle(ContentVo contents);
+    void updateArticle(Content contents);
 
 
     /**

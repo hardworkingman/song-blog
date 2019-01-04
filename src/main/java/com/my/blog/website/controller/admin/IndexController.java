@@ -1,5 +1,6 @@
 package com.my.blog.website.controller.admin;
 
+import com.my.blog.website.entity.Content;
 import com.my.blog.website.service.ISiteService;
 import com.my.blog.website.constant.WebConst;
 import com.my.blog.website.controller.BaseController;
@@ -8,7 +9,6 @@ import com.my.blog.website.exception.TipException;
 import com.my.blog.website.modal.Bo.RestResponseBo;
 import com.my.blog.website.modal.Bo.StatisticsBo;
 import com.my.blog.website.modal.Vo.CommentVo;
-import com.my.blog.website.modal.Vo.ContentVo;
 import com.my.blog.website.modal.Vo.LogVo;
 import com.my.blog.website.modal.Vo.UserVo;
 import com.my.blog.website.service.ILogService;
@@ -54,7 +54,7 @@ public class IndexController extends BaseController {
     public String index(HttpServletRequest request){
         LOGGER.info("Enter admin index method");
         List<CommentVo> comments = siteService.recentComments(5);
-        List<ContentVo> contents = siteService.recentContents(5);
+        List<Content> contents = siteService.recentContents(5);
         StatisticsBo statistics = siteService.getStatistics();
         // 取最新的20条日志
         List<LogVo> logs = logService.getLogs(1, 5);
